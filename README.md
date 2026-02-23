@@ -2,7 +2,7 @@
 
 # Screen Options \- Manage WordPress Admin Screen Options and Column Visibility
 
-**Contributors:** [rtCamp](https://profiles.wordpress.org/rtcamp/), [aviralmittal89](https://profiles.wordpress.org/aviralmittal89/), [aishwarryapande](https://profiles.wordpress.org/aishwarryapande/), [danish17](https://github.com/danish17), [vishal4669](https://profiles.wordpress.org/vishal4669/), [up1512001](https://profiles.wordpress.org/up1512001/), [milindmore22](https://profiles.wordpress.org/milindmore22/)
+**Contributors:** [rtCamp](https://profiles.wordpress.org/rtcamp/), [aviralmittal89](https://profiles.wordpress.org/aviralmittal89/), [aishwarryapande](https://profiles.wordpress.org/aishwarryapande/), [danish17](https://profiles.wordpress.org/iamdanih17/), [vishal4669](https://profiles.wordpress.org/vishal4669/), [up1512001](https://profiles.wordpress.org/up1512001/), [milindmore22](https://profiles.wordpress.org/milindmore22/)
 
 **Tags:** WordPress, Screen Options, Admin Columns, Column Visibility, User Experience, Admin Interface
 

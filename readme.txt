@@ -1,5 +1,5 @@
 === Screen Options ===
-Contributors: rtCamp, aviralmittal89, aishwarryapande, danish17, vishal4669, up1512001, milindmore22
+Contributors: rtCamp, aviralmittal89, aishwarryapande, iamdanih17, vishal4669, up1512001, milindmore22
 Tags: screen options, admin columns, column visibility, user experience, admin interface
 Requires at least: 6.8
 Tested up to: 6.9
