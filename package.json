@@ -81,7 +81,7 @@
 		"fast-xml-parser": ">=5.3.4",
 		"minimatch": ">=10.2.1",
 		"serialize-javascript": ">=7.0.3",
-		"yauzl" : ">=3.2.1",
+		"yauzl": ">=3.2.1",
 		"@wp-playground/blueprints": {
 			"ajv": ">=8.18.0"
 		},
