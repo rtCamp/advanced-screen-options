@@ -44,6 +44,11 @@
 			"AdvancedScreenOptions\\": "inc/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"PluginCheckCS\\PluginCheck\\": "vendor/wpackagist-plugin/plugin-check/vendor/plugin-check/phpcs-sniffs/PluginCheck/"
+		}
+	},
 	"require": {
 		"php": "^8.1"
 	},
@@ -62,7 +67,7 @@
 		"szepeviktor/phpstan-wordpress": "^2.0.2",
 		"wp-coding-standards/wpcs": "^3.1",
 		"wp-phpunit/wp-phpunit": "^6.5",
-		"wpackagist-plugin/plugin-check": "~1.6.0",
+		"wpackagist-plugin/plugin-check": "~1.8.0",
 		"yoast/phpunit-polyfills": "^4.0"
 	},
 	"scripts": {
