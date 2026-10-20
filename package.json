@@ -93,6 +93,7 @@
 		},
 		"@simple-git/argv-parser": ">=2.0.1",
 		"simple-git" : ">=4.0.1",
-		"adm-zip" : "^0.6.1"
+		"adm-zip" : "^0.6.1",
+		"basic-ftp" : "^6.2.1"
 	}
 }
