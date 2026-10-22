@@ -169,7 +169,7 @@ class Role_Based_Screen_Options implements Registrable {
 
 		// Get current post type.
 		$screen = get_current_screen();
-		if ( ! empty( $screen ) && ! empty( $screen->post_type ) ) {
+		if ( ! empty( $screen ) && ! empty( $screen->post_type ) && ! empty( $screen_options_posts->posts ) && is_array( $screen_options_posts->posts ) ) {
 			foreach ( $screen_options_posts->posts as $post_id ) {
 
 				// Ensure post ID is an integer.

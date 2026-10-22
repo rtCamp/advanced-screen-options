@@ -44,7 +44,7 @@ function uninstall(): void {
  * Delete all screen option posts and their metadata.
  */
 function delete_all_screen_option_post_types(): void {
-	do {
+	while ( true ) {
 		$screen_option_posts = get_posts( // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 			[
 				'post_type'        => Advanced_Screen_Options::get_slug(),
@@ -69,7 +69,7 @@ function delete_all_screen_option_post_types(): void {
 			// Delete the post permanently.
 			wp_delete_post( $post_id, true );
 		}
-	} while ( ! empty( $screen_option_posts ) );
+	}
 }
 
 /**
