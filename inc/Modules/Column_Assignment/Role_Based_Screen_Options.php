@@ -140,7 +140,7 @@ class Role_Based_Screen_Options implements Registrable {
 		$screen_options_posts = new WP_Query(
 			[
 				'post_type'      => Advanced_Screen_Options::get_slug(),
-				'posts_per_page' => -1,
+				'posts_per_page' => 100,
 				'meta_query'     => $meta_query, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				'fields'         => 'ids',
 				'post_status'    => 'publish',
@@ -153,7 +153,7 @@ class Role_Based_Screen_Options implements Registrable {
 			$screen_options_posts = new WP_Query(
 				[
 					'post_type'      => Advanced_Screen_Options::get_slug(),
-					'posts_per_page' => -1,
+					'posts_per_page' => 100,
 					'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 						[
 							'key'     => 'screen_options_roles',
