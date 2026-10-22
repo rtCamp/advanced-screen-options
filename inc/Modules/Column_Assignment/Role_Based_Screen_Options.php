@@ -121,85 +121,132 @@ class Role_Based_Screen_Options implements Registrable {
 			return 0;
 		}
 
+		// Get current post type.
+		$screen            = get_current_screen();
+		$current_post_type = '';
+		if ( ! empty( $screen ) ) {
+			if ( ! empty( $screen->post_type ) ) {
+				$current_post_type = $screen->post_type;
+			} elseif ( ! empty( $screen->id ) && 0 === strpos( $screen->id, 'edit-' ) ) {
+				$current_post_type = str_replace( 'edit-', '', $screen->id );
+			}
+		}
+
 		// Build meta query to fetch screen options posts based on all user roles.
-		$meta_query = []; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+		$role_meta_query = []; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 
 		foreach ( $user_roles as $role ) {
-			$meta_query[] = [
+			$role_meta_query[] = [
 				'key'     => 'screen_options_roles',
 				'value'   => $role,
 				'compare' => 'LIKE',
 			];
 		}
 
-		if ( count( $meta_query ) > 1 ) {
-			$meta_query['relation'] = 'OR';
+		if ( count( $role_meta_query ) > 1 ) {
+			$role_meta_query['relation'] = 'OR';
+		}
+
+		$meta_query = [];
+		if ( ! empty( $current_post_type ) ) {
+			$meta_query = [
+				'relation' => 'AND',
+				[
+					'key'     => 'screen_options_post_type',
+					'value'   => $current_post_type,
+					'compare' => '=',
+				],
+				$role_meta_query,
+			];
+		} else {
+			$meta_query = $role_meta_query;
 		}
 
 		// Fetch screen options posts based on user role.
-		$screen_options_posts = new WP_Query(
-			[
-				'post_type'      => Advanced_Screen_Options::get_slug(),
-				'posts_per_page' => 100,
-				'meta_query'     => $meta_query, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-				'fields'         => 'ids',
-				'post_status'    => 'publish',
-			]
-		);
+		$matched_post_id = $this->find_screen_options_post_id( $meta_query, $current_post_type );
 
 		// If no posts found for the roles, check for 'all_users'.
-		if ( empty( $screen_options_posts->posts ) || ! is_array( $screen_options_posts->posts ) ) {
-			// If no posts found for the role, check for 'all_users'.
-			$screen_options_posts = new WP_Query(
+		if ( 0 === $matched_post_id ) {
+			$all_users_meta = [
+				[
+					'key'     => 'screen_options_roles',
+					'value'   => 'all_users',
+					'compare' => 'LIKE',
+				],
+			];
+
+			if ( ! empty( $current_post_type ) ) {
+				$all_users_meta_query = [
+					'relation' => 'AND',
+					[
+						'key'     => 'screen_options_post_type',
+						'value'   => $current_post_type,
+						'compare' => '=',
+					],
+					$all_users_meta,
+				];
+			} else {
+				$all_users_meta_query = $all_users_meta;
+			}
+
+			$matched_post_id = $this->find_screen_options_post_id( $all_users_meta_query, $current_post_type );
+		}
+
+		$this->screen_options_posts_id = $matched_post_id;
+
+		return $this->screen_options_posts_id;
+	}
+
+	/**
+	 * Find a matching screen options post ID for a given meta query and post type.
+	 *
+	 * Traverses matching posts with bounded pagination to find the screen options post
+	 * matching the current screen's post type.
+	 *
+	 * @param array  $meta_query        Meta query arguments.
+	 * @param string $current_post_type Current screen post type.
+	 *
+	 * @return int Matching post ID, or 0 if none found.
+	 */
+	private function find_screen_options_post_id( array $meta_query, string $current_post_type ): int {
+		$paged = 1;
+
+		do {
+			$query = new WP_Query(
 				[
 					'post_type'      => Advanced_Screen_Options::get_slug(),
 					'posts_per_page' => 100,
-					'meta_query'     => [ // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-						[
-							'key'     => 'screen_options_roles',
-							'value'   => 'all_users',
-							'compare' => 'LIKE',
-						],
-					],
+					'paged'          => $paged,
+					'meta_query'     => $meta_query, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					'fields'         => 'ids',
 					'post_status'    => 'publish',
+					'no_found_rows'  => false,
 				]
 			);
-		}
 
-		// Get current post type.
-		$screen = get_current_screen();
-		if ( ! empty( $screen ) && ! empty( $screen->post_type ) && ! empty( $screen_options_posts->posts ) && is_array( $screen_options_posts->posts ) ) {
-			foreach ( $screen_options_posts->posts as $post_id ) {
+			if ( empty( $query->posts ) || ! is_array( $query->posts ) ) {
+				break;
+			}
 
-				// Ensure post ID is an integer.
-				if ( ! is_int( $post_id ) && ! empty( $post_id ) ) {
+			foreach ( $query->posts as $post_id ) {
+				if ( ! is_int( $post_id ) ) {
 					continue;
 				}
 
-				// Get the post type assigned to this screen options post.
-				if ( empty( $screen->post_type ) ) {
-					continue;
+				if ( empty( $current_post_type ) ) {
+					return $post_id;
 				}
 
 				$assigned_post_type = Meta_Fields::get_post_type( $post_id );
-				if ( ! empty( $assigned_post_type ) && $screen->post_type === $assigned_post_type ) {
-					$this->screen_options_posts_id = $post_id;
-					return $this->screen_options_posts_id;
+				if ( $current_post_type === $assigned_post_type ) {
+					return $post_id;
 				}
 			}
-		}
 
-		// If still no posts found, return 0.
-		if ( empty( $screen_options_posts->posts ) || ! is_array( $screen_options_posts->posts ) ) {
-			return 0;
-		}
+			++$paged;
+		} while ( $paged <= $query->max_num_pages );
 
-		if ( isset( $screen_options_posts->posts[0] ) && is_int( $screen_options_posts->posts[0] ) ) {
-			$this->screen_options_posts_id = $screen_options_posts->posts[0];
-		}
-
-		return $this->screen_options_posts_id;
+		return 0;
 	}
 
 	/**
