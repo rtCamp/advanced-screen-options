@@ -143,6 +143,10 @@ class Assets implements Registrable {
 	 * @param bool     $in_footer Optional. Whether to enqueue the script before </body> instead of in the <head>.
 	 */
 	private function register_script( string $handle, string $filename, array $deps = [], $ver = null, bool $in_footer = true ): bool {
+		if ( '' === $handle ) {
+			return false;
+		}
+
 		$asset_file = sprintf( '%s/%s.asset.php', $this->plugin_dir . untrailingslashit( self::ASSETS_DIR ), $filename );
 
 		// Bail if the asset file does not exist. Log error and optionally show admin notice.
@@ -179,6 +183,10 @@ class Assets implements Registrable {
 	 *                            '(orientation: portrait)' and '(max-width: 640px)'.
 	 */
 	private function register_style( string $handle, string $filename, array $deps = [], $ver = null, string $media = 'all' ): bool {
+		if ( '' === $handle ) {
+			return false;
+		}
+
 		// CSS doesnt have a PHP assets file so we infer from the file itself.
 		$asset_file = sprintf( '%s/%s.css', $this->plugin_dir . untrailingslashit( self::ASSETS_DIR ), $filename );
 

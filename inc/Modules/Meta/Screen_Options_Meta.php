@@ -450,34 +450,39 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 	 */
 	public static function get_all_saved_roles(): array {
 		$all_roles = [];
-		$posts     = new WP_Query(
-			[
-				'post_type'      => Advanced_Screen_Options::get_slug(),
-				'posts_per_page' => -1,
-				'fields'         => 'ids',
-				'post_status'    => 'publish',
-			]
-		);
+		$paged     = 1;
 
-		if ( empty( $posts->posts ) ) {
-			return [];
-		}
+		do {
+			$posts = new WP_Query(
+				[
+					'post_type'      => Advanced_Screen_Options::get_slug(),
+					'posts_per_page' => 100,
+					'paged'          => $paged,
+					'fields'         => 'ids',
+					'post_status'    => 'publish',
+					'no_found_rows'  => false,
+				]
+			);
 
-		if ( ! is_array( $posts->posts ) ) {
-			return [];
-		}
-
-		foreach ( $posts->posts as $post_id ) {
-			if ( ! is_int( $post_id ) ) {
-				continue;
-			}
-			$post_roles = Meta_Fields::get_roles( $post_id );
-			if ( empty( $post_roles ) ) {
-				continue;
+			if ( empty( $posts->posts ) || ! is_array( $posts->posts ) ) {
+				break;
 			}
 
-			$all_roles = array_merge( $all_roles, $post_roles );
-		}
+			foreach ( $posts->posts as $post_id ) {
+				if ( ! is_int( $post_id ) ) {
+					continue;
+				}
+				$post_roles = Meta_Fields::get_roles( $post_id );
+				if ( empty( $post_roles ) ) {
+					continue;
+				}
+
+				$all_roles = array_merge( $all_roles, $post_roles );
+			}
+
+			++$paged;
+		} while ( $paged <= $posts->max_num_pages );
+
 		return array_unique( $all_roles );
 	}
 
@@ -590,42 +595,46 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 	 */
 	public static function get_role_post_type_configurations(): array {
 		$configurations = [];
-		$posts          = new WP_Query(
-			[
-				'post_type'      => Advanced_Screen_Options::get_slug(),
-				'posts_per_page' => -1,
-				'fields'         => 'ids',
-				'post_status'    => 'publish',
-			]
-		);
+		$paged          = 1;
 
-		if ( empty( $posts->posts ) ) {
-			return [];
-		}
+		do {
+			$posts = new WP_Query(
+				[
+					'post_type'      => Advanced_Screen_Options::get_slug(),
+					'posts_per_page' => 100,
+					'paged'          => $paged,
+					'fields'         => 'ids',
+					'post_status'    => 'publish',
+					'no_found_rows'  => false,
+				]
+			);
 
-		if ( ! is_array( $posts->posts ) ) {
-			return [];
-		}
-
-		foreach ( $posts->posts as $post_id ) {
-			if ( ! is_int( $post_id ) ) {
-				continue;
+			if ( empty( $posts->posts ) || ! is_array( $posts->posts ) ) {
+				break;
 			}
 
-			$post_roles = Meta_Fields::get_roles( $post_id );
-			$post_type  = Meta_Fields::get_post_type( $post_id );
-
-			if ( empty( $post_roles ) || empty( $post_type ) ) {
-				continue;
-			}
-
-			foreach ( $post_roles as $role ) {
-				if ( ! isset( $configurations[ $role ] ) ) {
-					$configurations[ $role ] = [];
+			foreach ( $posts->posts as $post_id ) {
+				if ( ! is_int( $post_id ) ) {
+					continue;
 				}
-				$configurations[ $role ][] = $post_type;
+
+				$post_roles = Meta_Fields::get_roles( $post_id );
+				$post_type  = Meta_Fields::get_post_type( $post_id );
+
+				if ( empty( $post_roles ) || empty( $post_type ) ) {
+					continue;
+				}
+
+				foreach ( $post_roles as $role ) {
+					if ( ! isset( $configurations[ $role ] ) ) {
+						$configurations[ $role ] = [];
+					}
+					$configurations[ $role ][] = $post_type;
+				}
 			}
-		}
+
+			++$paged;
+		} while ( $paged <= $posts->max_num_pages );
 
 		return $configurations;
 	}
