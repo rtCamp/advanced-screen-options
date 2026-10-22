@@ -205,7 +205,6 @@ Unlocked columns allow users to customize their screen options column visibility
 
 ## Support & Community
 
-- **Support Forum:** [WordPress.org Support](https://wordpress.org/support/plugin/advanced-screen-options/)
 - **Issues & Bug Reports:** [GitHub Issues](https://github.com/rtCamp/advanced-screen-options/issues)  
 
 ## License
