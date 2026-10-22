@@ -23,9 +23,8 @@
 	"devDependencies": {
 		"@babel/core": "^7.29.7",
 		"@wordpress/babel-preset-default": "^8.40.0",
-		"@wordpress/env": "^11.17.0",
 		"@wordpress/eslint-plugin": "^24.2.0",
-		"@wordpress/scripts": "^31.5.0",
+		"@wordpress/scripts": "^31.8.0",
 		"cross-env": "^10.1.0",
 		"css-minimizer-webpack-plugin": "^7.0.4",
 		"eslint": "^8.57.1",
@@ -41,8 +40,8 @@
 		"build:js": "wp-scripts build --config ./webpack.config.js",
 		"build:prod": "npm run clean && cross-env NODE_ENV=production npm-run-all 'build:!(dev|prod)' && composer install --no-dev --optimize-autoloader",
 		"clean": "rimraf build",
-		"i18n:make-pot": "wp-env run cli wp i18n make-pot . ./languages/screen-options.pot --exclude=node_modules,vendor,tests --ignore-domain=default",
-		"i18n:make-json": "wp-env run cli wp i18n make-json languages/ --no-purge",
+		"i18n:make-pot": "wp i18n make-pot . ./languages/screen-options.pot --exclude=node_modules,vendor,tests --ignore-domain=default",
+		"i18n:make-json": "wp i18n make-json languages/ --no-purge",
 		"lint:css": "wp-scripts lint-style",
 		"lint:css:fix": "npm run lint:css -- --fix",
 		"lint:js:fix": "npm run lint:js -- --fix",
@@ -54,9 +53,7 @@
 		"lint": "npm-run-all --parallel lint:*",
 		"plugin-zip": "npm run build:prod && wp-scripts plugin-zip",
 		"start:js": "wp-scripts start --config ./webpack.config.js",
-		"start": "npm-run-all --parallel start:*",
-		"test:php": "wp-env run tests-cli --env-cwd=wp-content/plugins/$(basename \"$(pwd)\")/ composer run-script test",
-		"wp-env": "wp-env"
+		"start": "npm-run-all --parallel start:*"
 	},
 	"overrides": {
 		"@babel/runtime": "^7.27.6",
@@ -64,21 +61,11 @@
 		"fast-xml-parser": ">=5.3.4",
 		"minimatch": ">=10.2.1",
 		"serialize-javascript": ">=7.0.3",
-		"@wp-playground/blueprints": {
-			"ajv": ">=8.18.0"
-		},
-		"@wp-playground/tools": {
-			"ajv": ">=8.18.0"
-		},
-		"@wp-playground/cli": {
-			"ajv": ">=8.18.0"
-		},
-		"uuid": ">=14.0.0",
 		"markdown-it": "^14.1.0",
 		"@opentelemetry/core": "^2.8.0",
 		"js-yaml": "^4.1.2",
-		"adm-zip" : "^0.6.1",
+		"adm-zip": "^0.6.1",
 		"@simple-git/argv-parser": "^2.0.1",
-		"simple-git" : "^4.0.0"
+		"simple-git": ">=4.0.2"
 	}
 }
