@@ -44,22 +44,32 @@ function uninstall(): void {
  * Delete all screen option posts and their metadata.
  */
 function delete_all_screen_option_post_types(): void {
+	$failed_post_ids = [];
+
 	while ( true ) {
-		$screen_option_posts = get_posts( // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
-			[
-				'post_type'        => Advanced_Screen_Options::get_slug(),
-				'post_status'      => 'any',
-				'numberposts'      => 100,
-				'fields'           => 'ids',
-				'suppress_filters' => false,
-			]
-		);
+		$args = [
+			'post_type'        => Advanced_Screen_Options::get_slug(),
+			'post_status'      => 'any',
+			'numberposts'      => 100,
+			'fields'           => 'ids',
+			'suppress_filters' => false,
+		];
+
+		if ( ! empty( $failed_post_ids ) ) {
+			$args['post__not_in'] = $failed_post_ids; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_post__not_in, WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_post__not_in -- Exclude failed IDs so batch deletion makes progress during uninstall.
+		}
+
+		$screen_option_posts = get_posts( $args ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
 
 		if ( empty( $screen_option_posts ) ) {
 			break;
 		}
 
 		foreach ( $screen_option_posts as $post_id ) {
+			if ( ! is_int( $post_id ) ) {
+				continue;
+			}
+
 			// Delete post meta first.
 			delete_post_meta( $post_id, 'screen_options_roles' );
 			delete_post_meta( $post_id, 'screen_options_post_type' );
@@ -67,7 +77,12 @@ function delete_all_screen_option_post_types(): void {
 			delete_post_meta( $post_id, 'screen_options_lock' );
 
 			// Delete the post permanently.
-			wp_delete_post( $post_id, true );
+			$deleted = wp_delete_post( $post_id, true );
+
+			if ( ! $deleted ) {
+				$failed_post_ids[] = $post_id;
+				continue;
+			}
 		}
 	}
 }
