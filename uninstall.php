@@ -44,26 +44,32 @@ function uninstall(): void {
  * Delete all screen option posts and their metadata.
  */
 function delete_all_screen_option_post_types(): void {
-	$screen_option_posts = get_posts( // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
-		[
-			'post_type'        => Advanced_Screen_Options::get_slug(),
-			'post_status'      => 'any',
-			'numberposts'      => -1,
-			'fields'           => 'ids',
-			'suppress_filters' => false,
-		]
-	);
+	do {
+		$screen_option_posts = get_posts( // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.get_posts_get_posts
+			[
+				'post_type'        => Advanced_Screen_Options::get_slug(),
+				'post_status'      => 'any',
+				'numberposts'      => 100,
+				'fields'           => 'ids',
+				'suppress_filters' => false,
+			]
+		);
 
-	foreach ( $screen_option_posts as $post_id ) {
-		// Delete post meta first.
-		delete_post_meta( $post_id, 'screen_options_roles' );
-		delete_post_meta( $post_id, 'screen_options_post_type' );
-		delete_post_meta( $post_id, 'screen_options_columns' );
-		delete_post_meta( $post_id, 'screen_options_lock' );
+		if ( empty( $screen_option_posts ) ) {
+			break;
+		}
 
-		// Delete the post permanently.
-		wp_delete_post( $post_id, true );
-	}
+		foreach ( $screen_option_posts as $post_id ) {
+			// Delete post meta first.
+			delete_post_meta( $post_id, 'screen_options_roles' );
+			delete_post_meta( $post_id, 'screen_options_post_type' );
+			delete_post_meta( $post_id, 'screen_options_columns' );
+			delete_post_meta( $post_id, 'screen_options_lock' );
+
+			// Delete the post permanently.
+			wp_delete_post( $post_id, true );
+		}
+	} while ( ! empty( $screen_option_posts ) );
 }
 
 /**

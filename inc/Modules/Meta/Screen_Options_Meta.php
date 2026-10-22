@@ -453,7 +453,7 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 		$posts     = new WP_Query(
 			[
 				'post_type'      => Advanced_Screen_Options::get_slug(),
-				'posts_per_page' => -1,
+				'posts_per_page' => 100,
 				'fields'         => 'ids',
 				'post_status'    => 'publish',
 			]
@@ -593,7 +593,7 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 		$posts          = new WP_Query(
 			[
 				'post_type'      => Advanced_Screen_Options::get_slug(),
-				'posts_per_page' => -1,
+				'posts_per_page' => 100,
 				'fields'         => 'ids',
 				'post_status'    => 'publish',
 			]
