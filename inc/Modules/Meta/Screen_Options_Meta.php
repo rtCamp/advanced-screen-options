@@ -298,7 +298,7 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 		}
 
 		// Check user permissions.
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		if ( ! current_user_can( 'manage_options' ) || ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 
@@ -340,9 +340,11 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 		$roles         = [];
 		$lock_settings = false;
 
-		// Save assigned roles (only selected ones).
+		// Save assigned roles (only selected and valid ones).
 		if ( isset( $_POST['screen_options_assigned_roles'] ) && is_array( $_POST['screen_options_assigned_roles'] ) ) {
-			$roles = array_map( 'sanitize_text_field', wp_unslash( $_POST['screen_options_assigned_roles'] ) );
+			$valid_roles = array_merge( [ 'all_users' ], array_keys( wp_roles()->roles ) );
+			$raw_roles   = array_map( 'sanitize_text_field', wp_unslash( $_POST['screen_options_assigned_roles'] ) );
+			$roles       = array_values( array_intersect( $raw_roles, $valid_roles ) );
 		}
 
 		// Validate that at least one role is selected.
