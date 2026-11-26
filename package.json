@@ -75,6 +75,7 @@
 		"wp-env": "wp-env"
 	},
 	"overrides": {
+		"@babel/core": "^7.29.6",
 		"@babel/runtime": "^7.27.6",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
@@ -82,6 +83,23 @@
 		"fast-xml-parser": ">=5.3.4",
 		"minimatch": ">=10.2.1",
 		"serialize-javascript": ">=7.0.3",
+		"adm-zip": ">=0.6.1",
+		"basic-ftp": ">=6.2.4",
+		"isomorphic-git": ">=1.38.6",
+		"linkify-it": ">=5.0.2",
+		"markdown-it": "^14.3.3",
+		"qs@<=6.16.0": ">=6.16.1",
+		"zod": ">=4.6.6",
+		"@opentelemetry/core": "^2.8.0",
+		"@opentelemetry/instrumentation-knex": ">=0.65.0",
+		"@opentelemetry/instrumentation-mongoose": ">=0.66.1",
+		"@opentelemetry/instrumentation-mysql": ">=0.67.0",
+		"@opentelemetry/instrumentation-mysql2": ">=0.66.1",
+		"@opentelemetry/instrumentation-pg": ">=0.72.1",
+		"@opentelemetry/instrumentation-tedious": ">=0.40.0",
+		"@wordpress/env": {
+			"glob": ">=14.0.2"
+		},
 		"@wp-playground/blueprints": {
 			"ajv": ">=8.18.0"
 		},
