@@ -54,16 +54,26 @@
 		"start": "npm-run-all --parallel start:*"
 	},
 	"overrides": {
+		"@babel/core": "^7.29.7",
 		"@babel/runtime": "^7.27.6",
 		"webpack-dev-server@<=5.2.0": ">=5.2.1",
 		"fast-xml-parser": ">=5.3.4",
-		"minimatch": ">=10.2.1",
+		"minimatch": ">=11.0.1",
 		"serialize-javascript": ">=7.0.3",
 		"markdown-it": "^14.1.0",
 		"@opentelemetry/core": "^2.8.0",
+		"@opentelemetry/instrumentation-knex": ">=0.65.0",
+		"@opentelemetry/instrumentation-mongoose": ">=0.67.0",
+		"@opentelemetry/instrumentation-mysql": ">=0.67.0",
+		"@opentelemetry/instrumentation-mysql2": ">=0.67.0",
+		"@opentelemetry/instrumentation-pg": ">=0.73.0",
+		"@opentelemetry/instrumentation-tedious": ">=0.40.0",
 		"js-yaml": "^4.1.2",
 		"adm-zip": "^0.6.1",
 		"@simple-git/argv-parser": "^2.0.1",
-		"simple-git": ">=4.0.2"
+		"simple-git": ">=4.0.2",
+		"basic-ftp": ">=6.2.4",
+		"zod": ">=4.6.6",
+		"@puppeteer/browsers": "^3.3.0"
 	}
 }
