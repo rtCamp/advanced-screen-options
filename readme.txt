@@ -3,7 +3,7 @@ Contributors: rtCamp, aviralmittal89, aishwarryapande, iamdanih17, vishal4669, u
 Tags: screen options, admin columns, column visibility, user experience, admin interface
 Requires at least: 6.8
 Tested up to: 7.0
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -66,7 +66,7 @@ This ensures that individual user preferences always take precedence, while admi
 
 1. Upload the Advanced Screen Options plugin files to the `/wp-content/plugins/advanced-screen-options` directory, or install the plugin through the WordPress plugins screen directly
 2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Navigate to "Advanced Screen Options" in your WordPress admin menu
+3. Navigate to "Settings → Advanced Screen Options" in your WordPress admin menu
 4. Click "Add New" to create a new screen options configuration
 5. Select the post type or screen you want to configure
 6. Choose which columns should be visible by default
@@ -135,11 +135,20 @@ No, Advanced Screen Options only affects the WordPress admin area and has no imp
 * Post type support
 * Custom post type compatibility
 
-== 1.1.0 =
+= 1.1.0 =
 * Bug fixes and performance improvements
 * Bump WordPress version compatibility to 7.0
 
+= 1.2.0 =
+* Security: Enhanced permission checks and role validation for screen options meta and post types
+* Performance: Optimized post queries and uninstallation with batched processing and pagination support
+* Fix: Filtered screen options query by current post type
+* Fix: Prevented infinite loops during uninstallation and added safety checks for empty handles and data
+
 == Upgrade Notice ==
+
+= 1.2.0 =
+Security, performance, and stability improvements for screen option queries, permissions, and uninstallation.
 
 = 1.1.0 =
 Bug fixes and performance improvements.

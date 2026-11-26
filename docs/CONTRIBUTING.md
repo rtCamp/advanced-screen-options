@@ -1,6 +1,6 @@
-# Contributing to the Screen Options
+# Contributing to Advanced Screen Options
 
-Thank you for considering contributing to Screen Options! We appreciate your help in improving this open-source project.
+Thank you for considering contributing to Advanced Screen Options! We appreciate your help in improving this open-source project.
 
 ## Code of Conduct
 
@@ -39,7 +39,7 @@ In general, we recommend you adhere to the GitHub issue templates included in th
 > [!TIP]
 > For detailed information on the project's directory structure, local development setup, and testing processes, refer to the [DEVELOPMENT.md](./DEVELOPMENT.md) document.
 
-3. **Write tests**: If possible, add/update the necessary Integration/Functional/etc. tests for your changes to ensure that everything works correctly.
+3. **Run checks**: Ensure all linting, static analysis, and production build checks pass (`npm run lint`, `npm run lint:php:stan`, and `npm run build:prod`).
 
 4. **Commit and push your changes**: Once you're satisfied with your changes, commit them to your forked repository and push them to your branch.
 
@@ -53,7 +53,7 @@ In general, we recommend you adhere to the GitHub issue templates included in th
 
 ## Thank You!
 
-We appreciate your time and contributions to the `Screen Options` project. Your efforts help make this project better for everyone!
+We appreciate your time and contributions to the `Advanced Screen Options` project. Your efforts help make this project better for everyone!
 To contribute:
 
 1. Fork the repository
