@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7093810c3156471bb1211cfad3dabb1f",
+    "content-hash": "90df19eaf1f3f301dc8a0a3105811166",
     "packages": [],
     "packages-dev": [
         {
@@ -3127,15 +3127,15 @@
         },
         {
             "name": "wpackagist-plugin/plugin-check",
-            "version": "1.6.0",
+            "version": "2.2.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/plugin-check/",
-                "reference": "tags/1.6.0"
+                "reference": "tags/2.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/plugin-check.1.6.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/plugin-check.2.2.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
