@@ -58,7 +58,7 @@
 		"@babel/runtime": "^7.27.6",
 		"webpack-dev-server@<=5.2.0": ">=5.2.1",
 		"fast-xml-parser": ">=5.3.4",
-		"minimatch": "^3.1.5",
+		"minimatch": ">=11.0.1",
 		"serialize-javascript": ">=7.0.3",
 		"markdown-it": "^14.1.0",
 		"@opentelemetry/core": "^2.8.0",
@@ -73,6 +73,7 @@
 		"@simple-git/argv-parser": "^2.0.1",
 		"simple-git": ">=4.0.2",
 		"basic-ftp": ">=6.2.4",
-		"zod": ">=4.6.6"
+		"zod": ">=4.6.6",
+		"@puppeteer/browsers": "^3.3.0"
 	}
 }
