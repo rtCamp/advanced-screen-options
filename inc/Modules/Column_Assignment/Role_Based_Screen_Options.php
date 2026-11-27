@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use AdvancedScreenOptions\Contracts\Interfaces\Registrable;
 use AdvancedScreenOptions\Modules\Core\Assets;
 use AdvancedScreenOptions\Modules\Meta\Meta_Fields;
+use AdvancedScreenOptions\Modules\Meta\Screen_Options_Meta;
 use AdvancedScreenOptions\Modules\Post_Types\Advanced_Screen_Options;
 use WP_Query;
 
@@ -75,7 +76,7 @@ class Role_Based_Screen_Options implements Registrable {
 		$current_columns = array_keys( get_column_headers( $screen->id ) );
 
 		// Determine screen ID key for selected columns.
-		$screen_id_key = \str_replace( 'edit-', '', $screen->id );
+		$screen_id_key = Screen_Options_Meta::extract_post_type_from_screen_id( $screen->id );
 
 		if ( isset( $selected_columns[ $screen_id_key ] ) ) {
 			$columns_for_screen = $selected_columns[ $screen_id_key ];
@@ -128,7 +129,7 @@ class Role_Based_Screen_Options implements Registrable {
 			if ( ! empty( $screen->post_type ) ) {
 				$current_post_type = $screen->post_type;
 			} elseif ( ! empty( $screen->id ) && 0 === strpos( $screen->id, 'edit-' ) ) {
-				$current_post_type = str_replace( 'edit-', '', $screen->id );
+				$current_post_type = Screen_Options_Meta::extract_post_type_from_screen_id( $screen->id );
 			}
 		}
 

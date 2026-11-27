@@ -676,7 +676,7 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 	 *
 	 * @return string Post type slug.
 	 */
-	private static function extract_post_type_from_screen_id( string $screen_id ): string {
+	public static function extract_post_type_from_screen_id( string $screen_id ): string {
 		if ( 0 === strpos( $screen_id, 'edit-' ) ) {
 			return substr( $screen_id, 5 );
 		}
