@@ -1,17 +1,16 @@
-# Contributing to the Screen Options as a Developer
+# Contributing to Advanced Screen Options as a Developer
 
-Code contributions, bug reports, and feature requests are welcome! The following sections provide guidelines for contributing to this project, as well as information about development processes and testing.
+Code contributions, bug reports, and feature requests are welcome! The following sections provide guidelines for contributing to this project, as well as information about development processes and linting.
 
 ## Table of Contents
 
-- [Contributing to the Screen Options as a Developer](#contributing-to-the-screen-options-as-a-developer)
+- [Contributing to Advanced Screen Options as a Developer](#contributing-to-advanced-screen-options-as-a-developer)
   - [Table of Contents](#table-of-contents)
   - [Directory Structure](#directory-structure)
   - [Local setup](#local-setup)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
     - [Useful Commands](#useful-commands)
-    - [Running Tests](#running-tests)
     - [Building the plugin for distribution](#building-the-plugin-for-distribution)
   - [Code Contributions (Pull Requests)](#code-contributions-pull-requests)
     - [Workflow](#workflow)
@@ -74,13 +73,6 @@ Code contributions, bug reports, and feature requests are welcome! The following
 │       └── Settings
 │           └── Admin.php
 │
-│   # Tests
-├── tests/
-│   ├── _output/ # Generated results and caches.
-│   ├── phpunit/ # PHPUnit tests.
-│   │
-│   └── bootstrap.php # PHPUnit bootstrapper
-│
 ├── languages
 │   └── advanced-screen-options.pot
 │
@@ -99,7 +91,6 @@ Code contributions, bug reports, and feature requests are welcome! The following
 ├── .editorconfig
 ├── .eslintrc.json
 ├── .nvmrc
-├── .wp-env.json
 ├── babel.config.js
 ├── composer.json
 ├── composer.lock
@@ -108,7 +99,7 @@ Code contributions, bug reports, and feature requests are welcome! The following
 ├── phpcs.xml.dist
 ├── phpstan.neon.dist
 ├── README.md
-├── tsconfig.json
+├── readme.txt
 └── webpack.config.js
 
 ```
@@ -121,15 +112,14 @@ To set up locally, clone the repository into plugins directory of your WordPress
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/): v22+ ([NVM](https://nvm.sh/) recommended )
-- [Docker](https://www.docker.com/)
-- Composer: (if you prefer to run the Composer tools locally)
-
-You can use Docker and the `wp-env` tool to set up a local development environment, instead of manually installing the specific testing versions of WordPress, PHP, and Composer. For more information, see the [wp-env documentation](https://developer.wordpress.org/block-editor/packages/packages-env/).
+- [Node.js](https://nodejs.org/): v22+ ([NVM](https://nvm.sh/) recommended)
+- PHP 8.1+
+- [Composer](https://getcomposer.org/)
+- A local WordPress installation (WordPress 6.8+)
 
 ### Installation
 
-1. Clone the repository:
+1. Clone the repository into the `wp-content/plugins/` directory of your local WordPress installation:
 
    ```bash
    git clone https://github.com/rtCamp/advanced-screen-options.git
@@ -148,13 +138,15 @@ You can use Docker and the `wp-env` tool to set up a local development environme
    composer install
    ```
 
-3. Start the local development environment:
+3. Build the development assets (or watch for changes):
 
    ```bash
-   npm run wp-env start
+   npm run build:dev
+   # or
+   npm run start
    ```
 
-   The WordPress development site will be available at <http://localhost:8888> and the WP Admin Dashboard will be available at <http://localhost:8888/wp-admin/>. You can log in to the admin using the username `admin` and password `password`.
+4. Activate **Advanced Screen Options** from the WordPress Plugins screen.
 
 ### Useful Commands
 
@@ -163,41 +155,24 @@ You can use Docker and the `wp-env` tool to set up a local development environme
 - `composer install`: Install PHP dependencies.
 - `npm install`: Install JavaScript dependencies.
 
-#### Accessing the Local Environment
+#### Building & Internationalization
 
-- `npm run wp-env start`: Start the local development environment.
-- `npm run wp-env stop`: Stop the local development environment.
-- `npm run wp-env run tests-cli YOUR_CMD_HERE`: Run WP-CLI commands in the local environment.
-
-For more information on using `wp-env`, see the [wp-env documentation](https://developer.wordpress.org/block-editor/packages/packages-env/).
+- `npm run start`: Watch and compile JS/CSS assets during development.
+- `npm run build:dev`: Build unminified development assets.
+- `npm run build:prod`: Build minified production assets and optimize Composer autoloader without dev dependencies.
+- `npm run plugin-zip`: Build production assets and create `advanced-screen-options.zip`.
+- `npm run i18n:make-pot`: Generate `languages/advanced-screen-options.pot` using WP-CLI.
 
 #### Linting and Formatting
 
+- `npm run lint`:          Runs all lint checks in parallel.
 - `npm run lint:css`:      Runs stylelint on the CSS code.
+- `npm run lint:css:fix`:  Autofixes stylelint issues.
 - `npm run lint:js`:       Runs ESLint on the JavaScript code.
 - `npm run lint:js:fix`:   Autofixes ESLint issues.
-- `npm run lint:js:types`: Runs TypeScript's `tsc` to check for type errors.
 - `npm run lint:php`:      Runs PHPCS linting on the PHP code.
 - `npm run lint:php:fix`:  Autofixes PHPCS linting issues.
 - `npm run lint:php:stan`: Runs PHPStan static analysis on the PHP code.
-
-### Running Tests
-
-PHPUnit tests can be run using the following command:
-
-```bash
-npm run test:php
-```
-
-To generate a code coverage report, make sure to start the testing environment with coverage mode enabled:
-
-```bash
-npm run wp-env start -- --xdebug=coverage
-
-npm run test:php
-```
-
-You should see the html coverage report in the `tests/_output/html` directory and the clover XML report in `tests/_output/php-coverage.xml`.
 
 ### Building the plugin for distribution
 

@@ -79,9 +79,9 @@ This ensures that individual user preferences always take precedence, while admi
 ## System Requirements
 
 - **WordPress:** 6.8 or higher
-- **Requires at least:** 6.0
+- **Requires at least:** 6.8
 - **Tested up to:** 7.0
-- **Stable tag:** 1.1.0
+- **Stable tag:** 1.2.0
 - **PHP:** 8.1 or higher
 - **Requires PHP:** 8.1
 
@@ -93,13 +93,13 @@ For detailed installation instructions and configuration guides, please see our 
 
 ### Accessing the Settings
 
-Navigate to **Advanced Screen Options** in your WordPress admin menu to access the Advanced Screen Options management interface.
+Navigate to **Settings → Advanced Screen Options** in your WordPress admin menu to access the Advanced Screen Options management interface.
 
 ### Configuring Advanced Screen Options
 
 #### Setting Up Default Columns
 
-1. Navigate to **Advanced Screen Options** in the WordPress admin
+1. Navigate to **Settings → Advanced Screen Options** in the WordPress admin
 2. Click **"Add New"** to create a new Advanced Screen Options configuration
 3. Select the **post type** or screen you want to configure
 4. Choose which **columns** should be visible by default

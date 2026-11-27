@@ -1,10 +1,10 @@
-# Security Policy for `Screen Options`
+# Security Policy for `Advanced Screen Options`
 
 At **rtCamp**, we take the security of our software products and services seriously. This document outlines how you can report vulnerabilities and how we handle them to ensure our users' safety.
 
 ## Reporting a Vulnerability
 
-If you discover any security vulnerability in **`Screen Options`**, please follow these steps:
+If you discover any security vulnerability in **`Advanced Screen Options`**, please follow these steps:
 
 1. **Private Disclosure:**
    Do not publicly disclose vulnerabilities. Instead, report the issue by emailing us at [marketing@rtcamp.com](mailto:marketing@rtcamp.com).
@@ -41,6 +41,6 @@ We prefer all communications to be in **English**.
 
 We follow the principles of **Coordinated Vulnerability Disclosure (CVD)**. This means we work closely with security researchers and provide time to patch vulnerabilities before they are publicly disclosed.
 
-Thank you for helping us keep `Screen Options` secure!
+Thank you for helping us keep `Advanced Screen Options` secure!
 
 ---
