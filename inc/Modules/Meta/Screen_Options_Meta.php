@@ -114,17 +114,21 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 			</div>
 
 			<?php
-				// Get all available post types except the screen options post type.
-				$post_types = get_post_types(
-					[
-						'public'   => true,
-						'_builtin' => false,
-					],
-					'objects',
-					'or'
-				);
+				// Get currently active post types except the screen options post type.
+				$active_post_types = Screen_Initializer::get_active_post_types();
+				unset( $active_post_types[ Advanced_Screen_Options::get_slug() ] );
 
-				$columns = Meta_Fields::get_available_columns();
+				$available_columns = Meta_Fields::get_available_columns();
+
+				// Filter available columns to only include currently active post types.
+				$columns = [];
+				foreach ( $available_columns as $screen_id => $screen_columns ) {
+					$post_type_slug = str_replace( 'edit-', '', $screen_id );
+					if ( empty( $post_type_slug ) || ! isset( $active_post_types[ $post_type_slug ] ) ) {
+						continue;
+					}
+					$columns[ $screen_id ] = $screen_columns;
+				}
 
 				// Get saved columns for this post.
 				$saved_columns = [];
@@ -134,9 +138,6 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 					$saved_columns = $post_meta;
 				}
 			}
-
-				// Remove screen options post type from the list.
-				unset( $post_types[ Advanced_Screen_Options::get_slug() ] );
 			?>
 			<!-- RIGHT COLUMN: Settings -->
 			<div id="settings-area" class="disabled">
@@ -157,8 +158,8 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 
 								// Build a list of roles that have already configured this post type.
 								$configured_for_roles = [];
-								foreach ( $role_post_type_configs as $role => $post_types ) {
-									if ( ! in_array( $post_type_key, $post_types, true ) ) {
+								foreach ( $role_post_type_configs as $role => $configured_post_types ) {
+									if ( ! in_array( $post_type_key, $configured_post_types, true ) ) {
 										continue;
 									}
 
@@ -206,7 +207,7 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 
 				<?php
 				// Settings Panels for each Post Type.
-				foreach ( $columns as $post_type_key => $columns ) :
+				foreach ( $columns as $post_type_key => $post_type_columns ) :
 					$post_type_key = str_replace( 'edit-', '', $post_type_key );
 					if ( ! $post_type_key ) {
 						continue;
@@ -229,10 +230,10 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 							<div class="settings-grid">
 								<?php
 
-								foreach ( $columns as $column_id => $column_name ) :
+								foreach ( $post_type_columns as $column_id => $column_name ) :
 
 									// Get all screen options columns for a post type and add checkboxes to enable/disable them also add a checkbox to lock/unlock them.
-									if ( ! isset( $columns ) || ! is_array( $columns ) ) {
+									if ( ! is_array( $post_type_columns ) ) {
 											continue;
 									}
 
