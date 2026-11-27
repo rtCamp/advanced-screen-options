@@ -102,6 +102,39 @@ class Screen_Initializer implements Registrable {
 	}
 
 	/**
+	 * Get currently active post types supported by screen options.
+	 *
+	 * @return array<string, \WP_Post_Type> Associative array of post type objects keyed by post type slug.
+	 */
+	public static function get_active_post_types(): array {
+		// Get all public custom post types.
+		$post_types = get_post_types(
+			[
+				'public'   => true,
+				'_builtin' => false,
+			],
+			'objects'
+		);
+
+		// Add built-in post types.
+		$builtin_post_types = [ 'post', 'page' ];
+		foreach ( $builtin_post_types as $builtin_type ) {
+			if ( ! post_type_exists( $builtin_type ) ) {
+				continue;
+			}
+
+			$post_type_object = get_post_type_object( $builtin_type );
+			if ( null === $post_type_object ) {
+				continue;
+			}
+
+			$post_types[ $builtin_type ] = $post_type_object;
+		}
+
+		return $post_types;
+	}
+
+	/**
 	 * Initialize edit screens in the background to capture default columns.
 	 *
 	 * This method creates virtual admin screens for post types so that all
@@ -119,32 +152,27 @@ class Screen_Initializer implements Registrable {
 		$original_hook_suffix = $hook_suffix;
 		$original_post_type   = $post_type;
 
-		// Get all public post types.
-		$post_types = get_post_types(
-			[
-				'public'   => true,
-				'_builtin' => false,
-			],
-			'objects'
-		);
-
-		// Add built-in post types.
-		$builtin_post_types = [ 'post', 'page' ];
-		foreach ( $builtin_post_types as $builtin_type ) {
-			if ( ! post_type_exists( $builtin_type ) ) {
-				continue;
-			}
-
-			$post_types[ $builtin_type ] = get_post_type_object( $builtin_type );
-		}
+		// Get currently active post types.
+		$post_types = self::get_active_post_types();
 
 		// Initialize each screen and capture columns.
+		$active_screen_ids = [];
 		foreach ( $post_types as $p_type ) {
 			if ( null === $p_type ) {
 				continue;
 			}
 
+			$active_screen_ids[ 'edit-' . $p_type->name ] = true;
 			$this->initialize_edit_screen( $p_type->name );
+		}
+
+		// Prune any previously scanned post types that are no longer active.
+		$saved_columns = Meta_Fields::get_available_columns();
+		if ( ! empty( $saved_columns ) ) {
+			$active_columns = array_intersect_key( $saved_columns, $active_screen_ids );
+			if ( count( $active_columns ) !== count( $saved_columns ) ) {
+				Meta_Fields::update_available_columns( $active_columns );
+			}
 		}
 
 		// Restore original values.
@@ -298,8 +326,9 @@ class Screen_Initializer implements Registrable {
 				? array_keys( $saved_columns[ $screen->id ] )
 				: [];
 
-			$diff = array_diff( $current_keys, $saved_keys );
-			if ( ! empty( $diff ) ) {
+			$added_keys   = array_diff( $current_keys, $saved_keys );
+			$removed_keys = array_diff( $saved_keys, $current_keys );
+			if ( ! empty( $added_keys ) || ! empty( $removed_keys ) ) {
 				$needs_update = true;
 			}
 		}
