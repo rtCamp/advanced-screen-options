@@ -122,13 +122,13 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 
 				// Filter available columns to only include currently active post types.
 				$columns = [];
-				foreach ( $available_columns as $screen_id => $screen_columns ) {
-					$post_type_slug = str_replace( 'edit-', '', $screen_id );
-					if ( empty( $post_type_slug ) || ! isset( $active_post_types[ $post_type_slug ] ) ) {
-						continue;
-					}
-					$columns[ $screen_id ] = $screen_columns;
+			foreach ( $available_columns as $screen_id => $screen_columns ) {
+				$post_type_slug = str_replace( 'edit-', '', $screen_id );
+				if ( empty( $post_type_slug ) || ! isset( $active_post_types[ $post_type_slug ] ) ) {
+					continue;
 				}
+				$columns[ $screen_id ] = $screen_columns;
+			}
 
 				// Get saved columns for this post.
 				$saved_columns = [];

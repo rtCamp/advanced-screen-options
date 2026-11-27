@@ -124,9 +124,11 @@ class Screen_Initializer implements Registrable {
 			}
 
 			$post_type_object = get_post_type_object( $builtin_type );
-			if ( null !== $post_type_object ) {
-				$post_types[ $builtin_type ] = $post_type_object;
+			if ( null === $post_type_object ) {
+				continue;
 			}
+
+			$post_types[ $builtin_type ] = $post_type_object;
 		}
 
 		return $post_types;
