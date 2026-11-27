@@ -123,12 +123,14 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 				// Filter available columns to only include currently active post types.
 				$columns = [];
 			foreach ( $available_columns as $screen_id => $screen_columns ) {
-				$post_type_slug = str_replace( 'edit-', '', $screen_id );
+				$post_type_slug = self::extract_post_type_from_screen_id( (string) $screen_id );
 				if ( empty( $post_type_slug ) || ! isset( $active_post_types[ $post_type_slug ] ) ) {
 					continue;
 				}
 				$columns[ $screen_id ] = $screen_columns;
 			}
+
+				$is_selected_post_type_inactive = '' !== $selected_post_type && ! isset( $active_post_types[ $selected_post_type ] );
 
 				// Get saved columns for this post.
 				$saved_columns = [];
@@ -141,6 +143,19 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 			?>
 			<!-- RIGHT COLUMN: Settings -->
 			<div id="settings-area" class="disabled">
+				<?php if ( $is_selected_post_type_inactive ) : ?>
+					<div class="notice notice-warning inline">
+						<p>
+							<?php
+							printf(
+								/* translators: %s: Post type slug. */
+								esc_html__( 'The previously configured post type (%s) is currently inactive. Its saved column settings will be preserved unless you select a different active post type.', 'advanced-screen-options' ),
+								esc_html( $selected_post_type )
+							);
+							?>
+						</p>
+					</div>
+				<?php endif; ?>
 
 				<!-- Toolbar with Post Type AND Global Lock -->
 				<div class="selector-toolbar">
@@ -151,7 +166,7 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 							<option value=""><?php esc_html_e( 'Select Post Type', 'advanced-screen-options' ); ?></option>
 							<?php
 							foreach ( $columns as $post_type_key => $column ) {
-								$post_type_key = str_replace( 'edit-', '', $post_type_key );
+								$post_type_key = self::extract_post_type_from_screen_id( (string) $post_type_key );
 								if ( ! $post_type_key ) {
 									continue;
 								}
@@ -208,7 +223,7 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 				<?php
 				// Settings Panels for each Post Type.
 				foreach ( $columns as $post_type_key => $post_type_columns ) :
-					$post_type_key = str_replace( 'edit-', '', $post_type_key );
+					$post_type_key = self::extract_post_type_from_screen_id( (string) $post_type_key );
 					if ( ! $post_type_key ) {
 						continue;
 					}
@@ -402,14 +417,26 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 			}
 		}
 
+		$meta_to_update = [
+			'roles'         => $roles,
+			'lock_settings' => $lock_settings,
+		];
+
+		// Preserve existing post type and columns if the saved post type is currently inactive.
+		$existing_post_type = Meta_Fields::get_post_type( $post_id );
+		$active_post_types  = Screen_Initializer::get_active_post_types();
+		$preserve_inactive  = '' === $selected_post_type
+			&& '' !== $existing_post_type
+			&& ! isset( $active_post_types[ $existing_post_type ] );
+
+		if ( ! $preserve_inactive ) {
+			$meta_to_update['columns']   = $columns;
+			$meta_to_update['post_type'] = $selected_post_type;
+		}
+
 		Meta_Fields::bulk_update_post_meta(
 			$post_id,
-			[
-				'roles'         => $roles,
-				'columns'       => $columns,
-				'lock_settings' => $lock_settings,
-				'post_type'     => $selected_post_type,
-			]
+			$meta_to_update
 		);
 	}
 
@@ -640,5 +667,20 @@ class Screen_Options_Meta extends Abstract_Meta_Box {
 		} while ( $paged <= $posts->max_num_pages );
 
 		return $configurations;
+	}
+
+	/**
+	 * Extract post type slug from a screen ID by stripping only a leading `edit-` prefix.
+	 *
+	 * @param string $screen_id Screen ID (e.g., `edit-post`, `edit-credit-note`).
+	 *
+	 * @return string Post type slug.
+	 */
+	private static function extract_post_type_from_screen_id( string $screen_id ): string {
+		if ( 0 === strpos( $screen_id, 'edit-' ) ) {
+			return substr( $screen_id, 5 );
+		}
+
+		return $screen_id;
 	}
 }
