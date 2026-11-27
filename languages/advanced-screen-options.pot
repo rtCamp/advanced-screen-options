@@ -2,17 +2,16 @@
 # This file is distributed under the GPL2+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Advanced Screen Options 1.1.0\n"
+"Project-Id-Version: Advanced Screen Options 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/advanced-screen-options\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-29T15:00:27+00:00\n"
+"POT-Creation-Date: 2026-11-26T14:12:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
-"X-Domain: advanced-screen-options\n"
+"X-Generator: WP-CLI 2.12.0\n"
 
 #. Plugin Name of the plugin
 #: advanced-screen-options.php
@@ -46,28 +45,30 @@ msgstr ""
 
 #. translators: %s: Class name.
 #: inc/Contracts/Traits/Singleton.php:55
+#, php-format
 msgid "The %s class should not be cloned."
 msgstr ""
 
 #. translators: %s: Class name.
 #: inc/Contracts/Traits/Singleton.php:70
+#, php-format
 msgid "De-serializing instances of %s is not allowed."
 msgstr ""
 
 #. translators: 1: Screen Options
-#: inc/Modules/Column_Assignment/Role_Based_Screen_Options.php:269
+#: inc/Modules/Column_Assignment/Role_Based_Screen_Options.php:316
 msgid "Locked:"
 msgstr ""
 
-#: inc/Modules/Column_Assignment/Role_Based_Screen_Options.php:270
+#: inc/Modules/Column_Assignment/Role_Based_Screen_Options.php:317
 msgid "columns are locked by the administrator. To modify your screen options, "
 msgstr ""
 
-#: inc/Modules/Column_Assignment/Role_Based_Screen_Options.php:272
+#: inc/Modules/Column_Assignment/Role_Based_Screen_Options.php:319
 msgid "go to settings -> default screen options."
 msgstr ""
 
-#: inc/Modules/Column_Assignment/Role_Based_Screen_Options.php:273
+#: inc/Modules/Column_Assignment/Role_Based_Screen_Options.php:320
 msgid "please contact your site administrator."
 msgstr ""
 
@@ -109,6 +110,7 @@ msgstr ""
 
 #. translators: %s: Post Type Singular Name.
 #: inc/Modules/Meta/Screen_Options_Meta.php:222
+#, php-format
 msgid "%s Columns"
 msgstr ""
 
@@ -120,35 +122,35 @@ msgstr ""
 msgid "Screen option cannot be saved! Title is required. Post has been set to draft and settings were not saved."
 msgstr ""
 
-#: inc/Modules/Meta/Screen_Options_Meta.php:372
+#: inc/Modules/Meta/Screen_Options_Meta.php:374
 msgid "Screen option cannot be saved! At least one role must be selected before saving it. Settings saved as draft."
 msgstr ""
 
-#: inc/Modules/Meta/Screen_Options_Meta.php:492
+#: inc/Modules/Meta/Screen_Options_Meta.php:499
 msgid "Roles"
 msgstr ""
 
-#: inc/Modules/Meta/Screen_Options_Meta.php:493
+#: inc/Modules/Meta/Screen_Options_Meta.php:500
 msgid "Post Type"
 msgstr ""
 
-#: inc/Modules/Meta/Screen_Options_Meta.php:494
+#: inc/Modules/Meta/Screen_Options_Meta.php:501
 msgid "Columns Shown"
 msgstr ""
 
-#: inc/Modules/Meta/Screen_Options_Meta.php:495
+#: inc/Modules/Meta/Screen_Options_Meta.php:502
 msgid "Lock"
 msgstr ""
 
-#: inc/Modules/Meta/Screen_Options_Meta.php:518
+#: inc/Modules/Meta/Screen_Options_Meta.php:525
 msgid "No roles assigned"
 msgstr ""
 
-#: inc/Modules/Meta/Screen_Options_Meta.php:538
+#: inc/Modules/Meta/Screen_Options_Meta.php:545
 msgid "No post type selected"
 msgstr ""
 
-#: inc/Modules/Meta/Screen_Options_Meta.php:547
+#: inc/Modules/Meta/Screen_Options_Meta.php:554
 msgid "No columns configured"
 msgstr ""
 

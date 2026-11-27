@@ -1,6 +1,6 @@
-# Screen Options - Installation and Setup Guide
+# Advanced Screen Options - Installation and Setup Guide
 
-This guide provides detailed instructions for installing and configuring the Screen Options plugin for your WordPress site.
+This guide provides detailed instructions for installing and configuring the Advanced Screen Options plugin for your WordPress site.
 
 ## Installation Overview
 
@@ -15,7 +15,7 @@ The installation process involves the following key steps:
 ### Option A: Install from WordPress.org (When Available)
 
 1. Navigate to **Plugins → Add New** in your WordPress admin
-2. Search for "Screen Options"
+2. Search for "Advanced Screen Options"
 3. Click **Install Now** and then **Activate**
 
 ### Option B: Manual Installation
@@ -42,14 +42,13 @@ npm run build:prod
 
 Upon activation, the plugin will:
 - Initialize screen options detection for all registered post types
-- Create the necessary database tables
-- Register the "Default Screens" custom post type
+- Register the "Advanced Screen Options" custom post type under **Settings → Advanced Screen Options**
 
 ## Step 3: Configure Default Screen Options
 
 ### Creating Your First Configuration
 
-1. Navigate to **Default Screens** in your WordPress admin menu
+1. Navigate to **Settings → Advanced Screen Options** in your WordPress admin menu
 2. Click **Add New** to create a new screen options configuration
 3. **Title:** Give your configuration a descriptive name (e.g., "Posts Default Columns")
 4. **Select Post Type/Screen:** Choose the screen you want to configure (e.g., Posts, Pages, Custom Post Type)
@@ -59,7 +58,7 @@ Upon activation, the plugin will:
 
 ### Configuring Role-Based Screen Options
 
-1. Navigate to **Default Screens → Add New**
+1. Navigate to **Settings → Advanced Screen Options → Add New**
 2. Select the target **user role** (e.g., Editor, Author, Contributor)
 3. Choose the post type or screen
 4. Configure the desired screen options
@@ -69,7 +68,7 @@ Upon activation, the plugin will:
 
 ### Example 1: Configure Default Columns for Posts
 
-1. Go to **Default Screens → Add New**
+1. Go to **Settings → Advanced Screen Options → Add New**
 2. Title: "Posts - Default Columns"
 3. Select: Post Type → Posts
 4. Enable columns: Title, Author, Categories, Tags, Date
@@ -78,7 +77,7 @@ Upon activation, the plugin will:
 
 ### Example 2: Configure Editor Role Columns
 
-1. Go to **Default Screens → Add New**
+1. Go to **Settings → Advanced Screen Options → Add New**
 2. Title: "Editor - Posts Columns"
 3. Select: User Role → Editor
 4. Select: Post Type → Posts

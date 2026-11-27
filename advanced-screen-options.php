@@ -9,7 +9,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: advanced-screen-options
  * Domain Path: /languages
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires PHP: 8.1
  * Requires at least: 6.8
  * Tested up to: 7.0
@@ -29,7 +29,7 @@ function constants(): void {
 	/**
 	 * Version of the plugin.
 	 */
-	define( 'ADVANCED_SCREEN_OPTIONS_VERSION', '1.1.0' );
+	define( 'ADVANCED_SCREEN_OPTIONS_VERSION', '1.2.0' );
 
 	/**
 	 * Root path to the plugin directory.
